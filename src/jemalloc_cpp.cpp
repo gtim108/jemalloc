@@ -95,7 +95,6 @@ handleOOM(std::size_t size, bool nothrow) {
 		ptr = je_malloc(size);
 	}
 
-<<<<<<< Updated upstream
 	if (ptr == nullptr && !nothrow) {
 #ifdef JEMALLOC_HAVE_CXX_EXCEPTIONS
 		throw std::bad_alloc();
@@ -103,13 +102,6 @@ handleOOM(std::size_t size, bool nothrow) {
 		std::terminate();
 #endif
 	}
-||||||| Stash base
-	if (ptr == nullptr && !nothrow)
-		std::__throw_bad_alloc();
-=======
-	if (ptr == nullptr && !nothrow)
-		throw std::bad_alloc();
->>>>>>> Stashed changes
 	return ptr;
 }
 
