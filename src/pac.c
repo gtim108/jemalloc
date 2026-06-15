@@ -1,8 +1,11 @@
 #include "jemalloc/internal/jemalloc_preamble.h"
-#include "jemalloc/internal/jemalloc_internal_includes.h"
 
+#include "jemalloc/internal/arena.h"
+#include "jemalloc/internal/background_thread.h"
+#include "jemalloc/internal/extent.h"
 #include "jemalloc/internal/pac.h"
 #include "jemalloc/internal/san.h"
+#include "jemalloc/internal/witness.h"
 
 static inline void
 pac_decay_data_get(pac_t *pac, extent_state_t state, decay_t **r_decay,
@@ -742,16 +745,6 @@ pac_decay_ms_get(pac_t *pac, extent_state_t state) {
 	ecache_t          *ecache;
 	pac_decay_data_get(pac, state, &decay, &decay_stats, &ecache);
 	return decay_ms_read(decay);
-}
-
-void
-pac_reset(tsdn_t *tsdn, pac_t *pac) {
-	/*
-	 * No-op for now; purging is still done at the arena-level.  It should
-	 * get moved in here, though.
-	 */
-	(void)tsdn;
-	(void)pac;
 }
 
 void

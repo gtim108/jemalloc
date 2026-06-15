@@ -1,12 +1,10 @@
 #include "jemalloc/internal/jemalloc_preamble.h"
-#include "jemalloc/internal/jemalloc_internal_includes.h"
 
+#include "jemalloc/internal/background_thread.h"
 #include "jemalloc/internal/hpa.h"
 #include "jemalloc/internal/hpa_utils.h"
-
-#include "jemalloc/internal/fb.h"
-#include "jemalloc/internal/witness.h"
 #include "jemalloc/internal/jemalloc_probe.h"
+#include "jemalloc/internal/witness.h"
 
 static void hpa_dalloc_batch(tsdn_t *tsdn, hpa_shard_t *shard,
     edata_list_active_t *list, bool *deferred_work_generated);
@@ -16,7 +14,7 @@ const char *const hpa_hugify_style_names[] = {"auto", "none", "eager", "lazy"};
 bool opt_experimental_hpa_start_huge_if_thp_always = true;
 bool opt_experimental_hpa_enforce_hugify = false;
 
-bool
+JET_EXTERN bool
 hpa_hugepage_size_exceeds_limit(void) {
 	return HUGEPAGE > HUGEPAGE_MAX_EXPECTED_SIZE;
 }
@@ -978,20 +976,6 @@ hpa_alloc(tsdn_t *tsdn, hpa_shard_t *shard, size_t size, size_t alignment,
 	witness_assert_depth_to_rank(
 	    tsdn_witness_tsdp_get(tsdn), WITNESS_RANK_CORE, 0);
 	return edata;
-}
-
-bool
-hpa_expand(tsdn_t *tsdn, hpa_shard_t *shard, edata_t *edata, size_t old_size,
-    size_t new_size, bool zero, bool *deferred_work_generated) {
-	/* Expand not yet supported. */
-	return true;
-}
-
-bool
-hpa_shrink(tsdn_t *tsdn, hpa_shard_t *shard, edata_t *edata, size_t old_size,
-    size_t new_size, bool *deferred_work_generated) {
-	/* Shrink not yet supported. */
-	return true;
 }
 
 static void

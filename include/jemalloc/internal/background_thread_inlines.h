@@ -2,9 +2,9 @@
 #define JEMALLOC_INTERNAL_BACKGROUND_THREAD_INLINES_H
 
 #include "jemalloc/internal/jemalloc_preamble.h"
-#include "jemalloc/internal/arena_inlines_a.h"
+#include "jemalloc/internal/arena_inlines.h"
 #include "jemalloc/internal/atomic.h"
-#include "jemalloc/internal/background_thread_externs.h"
+#include "jemalloc/internal/background_thread.h"
 
 JEMALLOC_ALWAYS_INLINE bool
 background_thread_enabled(void) {

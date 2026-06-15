@@ -1,10 +1,14 @@
 #include "jemalloc/internal/jemalloc_preamble.h"
-#include "jemalloc/internal/jemalloc_internal_includes.h"
 
+#include "jemalloc/internal/arena.h"
 #include "jemalloc/internal/assert.h"
+#include "jemalloc/internal/base.h"
+#include "jemalloc/internal/ehooks.h"
 #include "jemalloc/internal/extent_mmap.h"
 #include "jemalloc/internal/mutex.h"
 #include "jemalloc/internal/sz.h"
+
+JET_EXTERN ehooks_t *base_ehooks_get_for_metadata(base_t *base);
 
 /*
  * In auto mode, arenas switch to huge pages for the base allocator on the
@@ -543,7 +547,7 @@ base_ehooks_get(base_t *base) {
 	return &base->ehooks;
 }
 
-ehooks_t *
+JET_EXTERN ehooks_t *
 base_ehooks_get_for_metadata(base_t *base) {
 	return &base->ehooks_base;
 }

@@ -1,12 +1,23 @@
 #include "jemalloc/internal/jemalloc_preamble.h"
-#include "jemalloc/internal/jemalloc_internal_includes.h"
 
+#include "jemalloc/internal/arena.h"
+#include "jemalloc/internal/arena_inlines.h"
 #include "jemalloc/internal/assert.h"
+#include "jemalloc/internal/background_thread.h"
+#include "jemalloc/internal/background_thread_inlines.h"
 #include "jemalloc/internal/base.h"
+#include "jemalloc/internal/emap.h"
+#include "jemalloc/internal/jemalloc_internal_inlines_a.h"
+#include "jemalloc/internal/jemalloc_internal_inlines_c.h"
+#include "jemalloc/internal/large.h"
 #include "jemalloc/internal/mutex.h"
-#include "jemalloc/internal/safety_check.h"
+#include "jemalloc/internal/prof.h"
 #include "jemalloc/internal/san.h"
 #include "jemalloc/internal/sc.h"
+#include "jemalloc/internal/sz.h"
+#include "jemalloc/internal/tcache.h"
+#include "jemalloc/internal/tcache_inlines.h"
+#include "jemalloc/internal/witness.h"
 
 /******************************************************************************/
 /* Data. */
@@ -101,12 +112,12 @@ tcache_salloc(tsdn_t *tsdn, const void *ptr) {
 	return arena_salloc(tsdn, ptr);
 }
 
-uint64_t
+static uint64_t
 tcache_gc_new_event_wait(tsd_t *tsd) {
 	return opt_tcache_gc_incr_bytes;
 }
 
-uint64_t
+static uint64_t
 tcache_gc_postponed_event_wait(tsd_t *tsd) {
 	return TE_MIN_START_WAIT;
 }

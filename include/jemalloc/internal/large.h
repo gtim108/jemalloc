@@ -1,8 +1,12 @@
-#ifndef JEMALLOC_INTERNAL_LARGE_EXTERNS_H
-#define JEMALLOC_INTERNAL_LARGE_EXTERNS_H
+#ifndef JEMALLOC_INTERNAL_LARGE_H
+#define JEMALLOC_INTERNAL_LARGE_H
 
 #include "jemalloc/internal/jemalloc_preamble.h"
 #include "jemalloc/internal/edata.h"
+
+/* Forward decls; only used as pointer types below. */
+typedef struct arena_s     arena_t;
+typedef struct prof_info_s prof_info_t;
 
 void *large_malloc(tsdn_t *tsdn, arena_t *arena, size_t usize, bool zero);
 void *large_palloc(
@@ -20,4 +24,4 @@ void   large_prof_info_get(
 void large_prof_tctx_reset(edata_t *edata);
 void large_prof_info_set(edata_t *edata, prof_tctx_t *tctx, size_t size);
 
-#endif /* JEMALLOC_INTERNAL_LARGE_EXTERNS_H */
+#endif /* JEMALLOC_INTERNAL_LARGE_H */
